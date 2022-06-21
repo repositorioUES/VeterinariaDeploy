@@ -1,0 +1,53 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+<div>
+    <h3>Generar Consolidados</h3>
+</div>
+
+{% comment %} <div>
+    <form role="form" method="get" >
+        <div>
+            <label> Debe ser el Nombre Exacto del Paciente, Nombre Exacto de Clínica o Fecha de Cita</label>
+        </div>
+        <div>    
+            <input type="text"  placeholder="Nombre de Paciente" name="buscar" value="{{ request.GET.buscar }}">
+            <input type="text"  placeholder="Nombre de Clínica" name="fecha" value="{{ request.GET.fecha }}">
+            <input type="text"  placeholder="aaaa-mm-dd" name="buscarFecha" value="{{ request.GET.buscarFecha }}">
+        </div>
+        <br>
+        <div>
+            <button type="submit" class="btn btn-info" >Buscar</button>
+            <a href="{% url 'listado_citas' %}" class="btn btn-danger">Regresar</a>
+        </div>
+    </form>
+</div> {% endcomment %}
+
+    <div>
+        <a href="javascript: history.go(-1)" class="btn btn-success" style="color:white; background-color:#f6685e"> Regresar</a>
+    </div>
+
+        <h5>Consolidado de Consultas</h5>
+            <table  class="table table-sm">
+                    <tr style="text-align: center">
+                        <th style="text-align: center">Categoría</th>
+                        <th style="text-align: center">Archivo</th>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;"> Por Clínica</td>
+                        <td style="text-align:center;">
+							<a href="{% url 'reporte_por_clinica' %}" class="btn"
+								style="color:white; background-color:rgb(199, 2, 2)"><i class="fa fa-file-pdf-o"
+									aria-hidden="true"></i></a>
+						</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;"> Por Fecha</td>
+                        <td style="text-align:center;">
+							<a href="{% url 'reporte_por_fecha_asoc' %}" class="btn"
+								style="color:white; background-color:rgb(199, 2, 2)"><i class="fa fa-file-pdf-o"
+									aria-hidden="true"></i></a>
+						</td>
+                    </tr>
+            </table>   
+{% endblock content%}

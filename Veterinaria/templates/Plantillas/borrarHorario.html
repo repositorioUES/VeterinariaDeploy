@@ -1,0 +1,28 @@
+
+<div class="modal-dialog modal-lg-4">
+	<div class="modal-content">
+
+		<form action=" {% url 'borrar_horario' horario.pk %}" method="POST">
+
+             <div class="modal-body">
+				{% csrf_token %}
+				<div class="mdl-dialog__content" allign ="center">
+					<h4> ¿Desea Eliminar este Horario: {{horario}}? </h4>
+					<br>
+					
+					<h5> Se puede eliminar dado que no está asignado a ninguna cita</h5>
+					
+				</div>
+			</div>
+					<div class="modal-footer">
+			        <div class="col-lg-8 text-right"> 
+
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="background-color:red;color:white" type="submit">Eliminar</button>
+
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="background-color:green;color:white" data-dismiss="modal">Cancelar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}  
+{%load static%}
+
+{% block title %}<title>Agregar vacuna</title>{% endblock title%}
+{% block content %}
+{% if sinVacunas == 1 %}
+    <div>
+        <h5> El esquema se iniciará al agregar la primera Vacuna</h5>
+    </div>
+{% endif %}
+
+    <div>
+        <h5> Agregar Vacuna al paciente: {{paciente.nombrePac}}</h5>
+    </div>
+    {% load crispy_forms_tags %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                <div class="card bg-light text-dark">
+                    <div class="card-body" style="background-color: #b9bbc281;">
+                        <h2 align="center">Agregar Vacuna </h2>
+                        <hr>
+                        <form role="form" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form|crispy}}
+    
+                            <div class="d-flex justify-content-end">
+                                <a class="btn btn-danger" href="javascript: history.go(-1)"><i class="fa fa-ban"
+                                        aria-hidden="true"></i> Cancelar</a>
+                                &nbsp;
+                                <button type="submit" class="btn btn-success float-right"><i class="fa fa-check"
+                                        aria-hidden="true"></i> Guardar</button>
+                            </div>
+    
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content%}

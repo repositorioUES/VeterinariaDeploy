@@ -1,0 +1,25 @@
+
+<div class="modal-dialog modal-lg-4">
+	<div class="modal-content">
+
+		<form action=" {% url 'eliminar_solicitud_ingreso' solicitud.pk %}" method="POST">
+
+             <div class="modal-body">
+				{% csrf_token %}
+				<div class="mdl-dialog__content" allign ="center">
+					<h4> ¿Desea Eliminar esta Solicitud? </h4>
+					
+				</div>
+			</div>
+					<div class="modal-footer">
+			        <div class="col-lg-8 text-right"> 
+
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="background-color:red;color:white" type="submit">Eliminar</button>
+
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="background-color:green;color:white" data-dismiss="modal">Cancelar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+

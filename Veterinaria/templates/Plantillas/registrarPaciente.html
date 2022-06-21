@@ -1,0 +1,147 @@
+{% extends 'base.html' %}  
+{%load static%}
+{% block title %}<title>Registrar Paciente y Propietario</title>{% endblock title%}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            <div class="card bg-light text-dark">
+                <div class="card-body" style="background-color: #b9bbc281;">
+                    <h2 align="center">Registro de Pacientes</h2>
+                    <hr>
+                    <form role="form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <h5>Datos del Paciente</h5>
+                        {{ form|crispy}}
+
+                        <h5>Datos del Propietario</h5>
+                        {{ form2|crispy}}
+
+                        <h5>Datos para el Expediente</h5>
+                        {{ form3|crispy}}
+
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-danger" href="{% url 'listado_pacientes' %}"><i class="fa fa-ban"
+                                    aria-hidden="true"></i> Cancelar</a>
+                            &nbsp;
+                            <button type="submit" class="btn btn-success float-right"><i class="fa fa-check"
+                                    aria-hidden="true"></i> Registrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    document.getElementById("id_activo").type ="hidden"; // deshabilitar.
+    document.getElementById("id_activo").value ="true"; // deshabilitar.
+
+    document.getElementById("id_edad").readOnly = true;
+    window.onload = getClinicasActivas();
+    window.onload = VaciarSelects();
+
+// SELECT DEPENDIENTE PARA LOS MUNICIPIOS====================================
+    $(document).ready(function(){
+        $("#id_departamento").on("change", getMunicipios);    
+    
+        $("#id_clinica").on("change", getConsultorios);
+ 
+    });
+
+    function getClinicasActivas(){
+        $("#id_clinica").html("");
+        var request = $.ajax({
+            type: "GET",
+            url: "{% url 'load_Clinica_Activa' %}",
+            data: {
+                "consultId":"-"
+            },
+        });
+        request.done(function(response){
+            $("#id_clinica").html(response);
+                
+        });
+    }
+
+    function getMunicipios(){
+        var departamentoId = $("#id_departamento").val();
+        if (departamentoId){
+            $("#id_municipio").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_Municipio' %}",
+                data: {
+                    "depId":departamentoId
+                },
+            });
+            request.done(function(response){
+                $("#id_municipio").html(response);
+               
+            });
+    
+        }else{
+            $("#id_municipio").html('<option value="" selected = "selected">-----------</option>');      
+            $("#id_municipio").trigger("change");
+        }
+    }
+//===========================================================================
+
+// SELECT DEPENDIENTE PARA LOS CONSULTORIOS====================================
+    function getConsultorios(){
+        var valor = $("#id_clinica").val();
+        if (valor){
+            $("#id_consultorio").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_consultorio' %}",
+                data: {
+                    "consultId":valor
+                },
+            });
+            request.done(function(response){
+                $("#id_consultorio").html(response);
+                
+            });
+        
+        }else{
+            $("#id_consultorio").html('<option value="" selected = "selected">-----------</option>');      
+            $("#id_consultorio").trigger("change");
+        }
+    }
+//==================================================================================
+
+// PARA CALCULAR LA EDAD A PARTIR DE LA FECHA DE NACIMIENTO==================
+
+    // Y ahora si .... a calcular
+    $(document).ready(function(){
+            $("#id_fechaNacim").on("change", getEdad);    
+    });
+
+    function getEdad() {
+        var dateString = $("#id_fechaNacim").val();
+        let hoy = new Date()
+        let fechaNacimiento = new Date(dateString)
+        let edad = hoy.getFullYear() - fechaNacimiento.getFullYear()
+        let diferenciaMeses = hoy.getMonth() - fechaNacimiento.getMonth()
+        if (
+            diferenciaMeses < 0 ||
+            (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
+        ) {
+            edad--
+        }
+
+        document.getElementById("id_edad").value = edad;
+        return edad
+    }
+
+     function VaciarSelects(){
+        $("#id_consultorio").html('<option value="" selected = "selected">-----------</option>');
+        $("#id_municipio").html('<option value="" selected = "selected">-----------</option>');
+    }
+</script>
+
+{% endblock content%}

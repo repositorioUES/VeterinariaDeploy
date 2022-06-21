@@ -1,0 +1,67 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+<div>
+<h3>Buscar Paciente</h3>
+</div>
+
+<div>
+    <form role="form" method="get" >
+        <div>
+            
+            <h6> <B>Introduzca el Nombre del Paciente, el Nombre del Propietario o su DUI</B> </h6>
+            <input type="text"  placeholder="Nombre del Paciente" name="buscar" value="{{ request.GET.buscar }}">
+            <button type="submit" class="btn" style="color:white; background-color:blue">Buscar</button>
+        
+            <a href="{% url 'listado_pacientes' %}" class="btn btn-danger">Regresar</a>
+            
+        </div>
+            <table  class="table table-sm">
+                <tr style="text-align: center; background-color: #393c7f; color:whitesmoke;">
+                    <th style="text-align: center">Paciente</th>
+                    <th style="text-align: center">Especie</th>
+                    <th style="text-align: center">Propietario</th>
+                    <th style="text-align: center">Detalles</th>
+                    <th style="text-align: center">Expediente</th>
+                    <th style="text-align: center">Reporte</th>
+                </tr>
+                    {% for p in pacientes %}
+                        
+                        <tr>
+                            <td style="text-align: center">
+                                <!--<div><img src=" {{ p.foto.url }}"/></div>-->
+                                <div>{{p.nombrePac}}</div>
+                            </td>
+                            <td style="text-align: center">{{p.especie}}</td>
+                            <td style="text-align: center">{{p.propietario.nombre}}</td>
+
+                            <td style="text-align:center;">
+                                <a href="{% url 'detalle_paciente' p.pk %}" class="btn"  style="color:white; background-color:green"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                            </td>
+                            <td style="text-align:center;">
+                                <a href="{% url 'expediente' p.pk %}" class="btn"  style="color:white; background-color:blue"><i class="fa fa-file" aria-hidden="true"></i></a>
+                            </td>
+                            <td style="text-align:center;">
+                                <a href="{% url 'reporte_Paciente' p.pk %}" class="btn"
+                                    style="color:white; background-color:rgb(199, 2, 2)"><i class="fa fa-file-pdf-o"
+                                    aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                        
+                    {%endfor%}
+                    {% if pacientes == None %}
+                        <h3>No hay Resultados</h3>
+                    {% endif %}
+                </tr>
+            </table>    
+    </form>
+    
+</div> 
+
+ <script>
+    //document.getElementById("id_propietario").value = "a"; // deshabilitar
+    //document.getElementById("id_fechaNacim").type = "date"; // 
+    
+</script>
+
+{% endblock content%}

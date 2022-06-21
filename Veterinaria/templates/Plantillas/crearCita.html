@@ -1,0 +1,165 @@
+{% extends 'base.html' %}  
+{%load static%}
+
+{% block title %}<title>Nueva Cita </title>{% endblock title%}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            <div class="card bg-light text-dark">
+                <div class="card-body" style="background-color: #b9bbc281;">
+                    <h2 align="center">Agregar Cita </h2>
+                    <hr>
+                    <form role="form" method="POST" enctype="multipart/form-data">
+                        <div>
+                            <B><label>Buscar Paciente: Introduzca el Nombre del Paciente, Nombre o DUI del
+                                    Propietario</label></B>
+                            <input type="text" placeholder="Buscar Paciente" id="id_buscar" name="buscar"
+                                value="{{ request.GET.buscar }}" class="form-control">
+                        </div>
+
+                        {% csrf_token %}
+                        {{form|crispy}}
+
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-danger" href="{% url 'listado_citas' %}"><i class="fa fa-ban"
+                                    aria-hidden="true"></i> Cancelar</a>
+                            &nbsp;
+                            <button type="submit" class="btn btn-success float-right"><i class="fa fa-check"
+                                    aria-hidden="true"></i> Guardar</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content%}
+
+{% block js %}
+<script>
+    //document.getElementById("id_pendiente").type ="hidden"; // deshabilitar
+    window.onload = VaciarSelects();
+    window.onload = getClinicasActivas();
+
+    $(document).ready(function(){
+        $("#id_buscar").on("change", getPaciente);    
+        $("#id_clinica").on("change", getHorario); 
+
+        $("#id_clinica").on("change", getConsultorios);
+        $("#id_clinica").on("change", getServicios);
+        $("#id_consultorio").on("change", getServicios);
+    });
+    
+    function getClinicasActivas(){
+        $("#id_clinica").html("");
+        var request = $.ajax({
+            type: "GET",
+            url: "{% url 'load_Clinica_Activa' %}",
+            data: {
+                "consultId":"-"
+            },
+        });
+        request.done(function(response){
+            $("#id_clinica").html(response);
+                
+        });
+    }
+
+    function getPaciente(){
+        var valor = $("#id_buscar").val();
+        var filtro ="";
+
+        if (valor){
+            filtro = valor;
+        }else{
+            filtro = "-";
+        }
+        
+        $("#id_pacienteId").html("");
+        var request = $.ajax({
+            type: "GET",
+            url: "{% url 'load_Paciente' %}",
+            data: {
+                "filtro":filtro
+            },
+        });
+        request.done(function(response){
+            $("#id_pacienteId").html(response);
+               
+        });
+    }
+
+    function getHorario(){
+        var valor = $("#id_clinica").val();
+        if (valor){
+            $("#id_horaCita").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_Horario' %}",
+                data: {
+                    "filtro":valor
+                },
+            });
+            request.done(function(response){
+                $("#id_horaCita").html(response);
+                
+            });
+        
+        }else{
+            $("#id_horaCita").html('<option value="" selected = "selected">-----------</option>');      
+            $("#id_horaCita").trigger("change");
+        }
+    }
+
+    function getConsultorios(){
+        var valor = $("#id_clinica").val();
+        if (valor){
+            $("#id_consultorio").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_consultorio' %}",
+                data: {
+                    "consultId":valor
+                },
+            });
+            request.done(function(response){
+                $("#id_consultorio").html(response);
+                
+            });
+        
+        }else{
+            $("#id_consultorio").html('<option value="" selected = "selected">-----------</option>');      
+            $("#id_consultorio").trigger("change");
+        }
+    }
+
+    function getServicios(){
+        var valor = $("#id_consultorio").val();
+        if (valor){
+            $("#id_servicio").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_servicio' %}",
+                data: {
+                    "consId":valor
+                },
+            });
+            request.done(function(response){
+                $("#id_servicio").html(response);
+                
+            });
+        
+        }else{
+            $("#id_servicio").html('<option value="" selected = "selected">-----------</option>');      
+            $("#id_servicio").trigger("change");
+        }
+    }
+
+    function VaciarSelects(){
+        $("#id_consultorio").html('<option value="" selected = "selected">-----------</option>');
+        $("#id_servicio").html('<option value="" selected = "selected">-----------</option>');
+        $("#id_horaCita").html('<option value="" selected = "selected">-----------</option>');
+    }
+</script>
+{% endblock js %}

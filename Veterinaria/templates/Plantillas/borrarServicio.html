@@ -1,0 +1,27 @@
+<div class="modal-dialog modal-lg-4">
+	<div class="modal-content">
+
+		<form action=" {% url 'borrar_servicio' object.pk %}" method="post">
+
+             <div class="modal-body">
+				{% csrf_token %}
+				<div class="mdl-dialog__content" allign ="center">
+					<h4> ¿Realmente desea borrar este servicio? </h4>
+					<br>
+					<h5> Verifique si no está en uso en este momento</h5>
+					<br><br>
+					<h6><B>Nombre del servicio:</B> {{object.nombreServicio}} </h6>
+					<h6><B>Categoria</B> {{object.catServicio}} </h6>
+                </div>
+			</div>
+					<div class="modal-footer">
+			                                <div class="col-lg-8 text-right"> 
+
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="background-color:#f6685e;color:white" type="submit">Borrar servicio</button>
+
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="background-color:green;color:white" data-dismiss="modal">No Cancelar </button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

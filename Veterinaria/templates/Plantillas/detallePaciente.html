@@ -1,0 +1,113 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+
+<div>   
+    <a href="{% url 'modificar_paciente' paciente.pk %}" class="btn btn-info" ><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+    <a href="javascript: history.go(-1)" class="btn btn-danger"><i class="fa fa-minus" aria-hidden="true"></i> Regresar</a>
+</div>
+<div>
+    {% if borrar == 1 %}
+        <br>
+        <button onclick="return abrir_modal('{% url 'eliminar_paciente' paciente.pk %}')"  style="color:white; background-color:red" class="btn btn-successtn"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</button>
+        <h6><B> *Este paciente puede ser eliminado, dado que no tiene Citas, Vacunas ni Consultas registradas</B></h6>
+    {% endif %}
+</div>
+<table  class="table table-sm">
+<tr>
+<td width="300">
+    <div>
+        <h4>Datos de Paciente</h4>
+    </div> 
+    <div>
+        <B><label>Estado: </label></B> {% if paciente.activo == True %} ACTIVO {% else %} INACTIVO {% endif %}
+    </div>
+    <div>
+        <img src=" {{ paciente.foto.url }}"/>
+    </div>
+    <div>
+        <B><label>Nombre: </label></B>    {{paciente.nombrePac}}
+    </div>
+    <div>
+        <B><label>Especie: </label></B>    {{paciente.especie}}
+    </div>
+    <div>
+        <B><label>Sexo: </label></B>    {% if paciente.sexo == 'h' %}Hembra{%else%}Macho{%endif%}
+    </div>
+    <div>
+        <B><label>Raza: </label></B>    {{paciente.raza}}
+    </div>
+    <div>
+        <B><label>Color: </label></B>    {{paciente.color}}
+    </div>
+    <div>
+        <B><label>Fecha de Nacimiento: </label></B>    {{paciente.fechaNacimPac}}
+    </div>
+    <div>
+        <B><label>Observaciones: </label></B><br>  
+        <table>  
+            <tr>
+                <td width="800">
+                    {% if paciente.observaciones == None %}
+                        -
+                    {%else%}
+                        <p>{{paciente.observaciones}}</p>
+                    {%endif%}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <B><label>Fecha de Inscripción: </label></B>    {{paciente.fechaInscrip}}
+    </div>
+    <div>
+        <B><label>Persona que Inscribió: </label></B>    {{paciente.personaInscrip}}
+    </div>
+</td>
+<td width="300">
+    <div>
+        <h4>Datos del Propietario</h4>
+    </div> 
+    <div>
+        <B><label>Nombre: </label></B>    {{paciente.propietario}}
+    </div>
+    <div>
+        <B><label>DUI: </label></B>    {{paciente.propietario.dui}}
+    </div>
+    <div>
+        <B><label>Fecha de Nacimiento: </label></B>    {{paciente.propietario.fechaNacim}}
+    </div>
+    <div>
+        <B><label>Edad: </label></B>    {{paciente.propietario.edad}} años
+    </div>
+    <div>
+        <B><label>Dirección: </label></B>    {{paciente.propietario.direccion}}, {{paciente.propietario.municipio}}, {{paciente.propietario.departamento}}
+    </div>
+    <div>
+        <B><label>Correo Electónico: </label></B>    {{paciente.propietario.correo}}
+    </div>
+    <div>
+        <B><label>Teléfono: </label></B>    {{paciente.propietario.telefono}}
+    </div>
+</td>
+</tr>
+</table>
+
+<div class="modal fade" id="popup" role="dialog">
+
+</div>
+ 
+<script type="text/javascript">
+
+jQuery.noConflict();
+
+function abrir_modal(url)
+{
+    $('#popup').load(url, function(){
+		$(this).modal('show');
+	});
+}
+
+</script>    
+
+{% endblock content%}

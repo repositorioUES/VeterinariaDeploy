@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	{% block title %}<title></title>{% endblock title%}
+<!-- PARA EL SELECT MULTIPLE-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js" defer></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!---->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,700;1,400;1,700&family=Open+Sans:ital,wght@0,400;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    {% load static %}
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+
+	<!-- Archivos para uso de mapas  -->
+	<script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+  </head>
+  <body>
+		{% block navbar %}
+	  <div class="d-flex flex-column flex-md-row align-items-center p-2 px-md-4 bg-white border-bottom box-shadow">
+      <h3 class="my-0 mr-md-auto font-weight-normal" ><a class="text-dark" href="{% url 'index' %}">Pet & Leafde</a></h3>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <!--<a class="p-2 text-dark" href="{% url 'index' %}">Enlace 1</a>
+        <a class="p-2 text-dark" href="#">Enlace 2</a>
+        <a class="p-2 text-dark" href="#">Enlace 3</a>
+        <a class="p-2 text-dark" href="#">Enlace 4</a>-->
+		
+      </nav>
+	  <a class="btn btn-info" href="{% url 'registro'%}">Registrate</a>&nbsp;
+	  {% if request.user.is_authenticated %}
+      <a class="btn btn-danger" href="{% url 'logout' %}">Cerrar sesión</a>
+	  {% else %}
+	  <a class="btn btn-success" href="{% url 'login' %}">Iniciar sesión</a>
+	  {% endif %}
+
+    </div>
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+	          <i class="fa fa-bars"></i>
+	          <span class="sr-only">Menu</span>
+	        </button>
+        </div>
+				<div class="p-3">
+        <div class="contenedor_logo" align="center">
+            <img  class="logo"  src="{% static 'images/logo.png'%}" alt="logo">
+        </div>&nbsp;
+
+			{% if request.user.is_authenticated %}
+			<h5 style="color:whitesmoke;" class="my-0 mr-md-auto font-weight-normal" align ="center">Bienvenido/a:</h5>
+			<h5 style="color:whitesmoke;" align ='center'>{{user.first_name}} {{user.last_name}}</h5>
+			
+
+	        <ul class="list-unstyled components mb-5">
+	          <li class="active">
+	            <a href="{% url 'listar_clinica' %}"><span class="fa fa-home mr-3"></span> Clínicas</a>
+	          </li>
+	          <li class="active">
+	            <a href="{% url 'listado_pacientes' %}"><span class="fa fa-user mr-3"></span> Pacientes</a>
+	          </li>
+	          <li class="active">
+              <a href="{% url 'listado_citas' %}"><span class="fa fa-address-book mr-3"></span> Citas</a>
+	          </li>
+	          <li class="active">
+              	<a href="{% url 'listado_empleados' %}"><span class="fa fa-users mr-3"></span> Empleados</a>
+	          </li>
+			  <li class="active">
+              	<a href="{% url 'listado_servicios' %}"><span class="fa fa-medkit mr-3"></span> Servicios</a>
+	          </li>
+			  <li class="active">
+              	<a href="{% url 'listado_solicitud_servicio' %}"><span class="fa fa-envelope-o mr-3"></span> Solicitudes de Servicios</a>
+	          </li>
+			  <li class="active">
+				<a href="{% url 'listado_solicitudes' %}"><span class="fa fa-envelope-o mr-3"></span> Solicitudes de ingreso</a>
+			</li>
+			</ul>
+			{% else %}
+			{% endif %}
+			
+	        <!--Div de contenedor de iniciar sesion
+				<div class="mb-5">
+				<h3 class="h6 mb-3">Iniciar sesion</h3>
+					<ul class="list-unstyled components mb-5">
+						<li class="active">
+	              			<a href="#"><span class="fa fa-user mr-3"></span> Ingresar</a>
+	          			</li>
+					</ul>
+			</div>
+			-->
+
+
+	        <div class="footer">
+	        	<h5 align="center" style="color:whitesmoke;"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						  Copyright &copy;<script>document.write(new Date().getFullYear());</script><br>
+						  All rights reserved <br> Proyecto Diseño de Sistemas <i class="icon-heart" aria-hidden="true"></i>
+						  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></h>
+	        </div>
+	      </div>
+    	</nav>
+        {% endblock navbar%} 
+    
+       <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-5 pt-5">
+		
+		
+
+	  {% block content %}
+      </div>
+		</div>
+	{% endblock content%}
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    
+    <script src="{% static 'js/main.js' %}"></script>
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script> 
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+	{% block js %}
+	{% endblock  %}
+	<!-- Funcion del SLIDER  -->
+	<script>
+		$(document).ready(function() {
+		  $('.slider').bxSlider({
+			  mode: 'fade',//horizontal, vertical, fade
+			  auto: true,
+			  infiniteLoop: true,
+			  pause: 2000,
+			  slideWidth: 900,
+			  adaptiveHeight:false,
+			  responsive : true
+		  });
+		});
+
+		 $(document).ready(function(){
+			$("#id_servicio").select2({
+				placeholder:'Seleccionar Servicios',
+				closeOnSelect: false,
+				width:'100%'
+			});
+		});
+
+		$(document).ready(function(){
+			$("#id_servicios").select2({
+				placeholder:'Seleccionar Servicios',
+				closeOnSelect: false,
+				width:'100%'
+			});
+		});
+
+	</script>
+
+
+	<!-- Funcion para imprimir mensajes  -->
+		{% if messages%}
+			{% for m in messages%}
+			<script>
+				Swal.fire({
+					icon: 'success',
+					title: 'Felicitaciones',
+					text: '{{ m }}',
+					timer: 3000,
+					})
+			</script>
+			{%endfor%}
+		{% endif %}
+
+
+  </body>
+</html>

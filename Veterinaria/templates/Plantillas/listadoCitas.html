@@ -1,0 +1,64 @@
+{% extends 'base.html' %}  
+{% block title %}<title>Listado de Citas</title>{% endblock title%}
+{% block content %}
+
+<h5>Listado de Citas</h5>
+<div class="d-flex justify-content-start">
+		<a href="{% url 'crear_cita' %}" class="btn btn-success">Nueva Cita</a>&nbsp;
+		<a href="{% url 'buscar_cita' %}" class="btn btn-info">Buscar Cita</a>&nbsp;
+		<a href="{% url 'listado_horarios' %}" class="btn btn-success">Gestion de Horarios</a>    
+</div>&nbsp;
+
+<br>
+<div>
+	<h5>Citas para Hoy</h5>
+	{% if citasHoy%}
+		<table  class="table table-sm">
+			<tr style="text-align: center">
+				<th style="text-align: center">Fecha y Hora</th>
+				<th style="text-align: center">Paciente</th>
+		
+			</tr>
+			{% for c in citasHoy %}
+				<tr>
+					<td style="text-align: center">
+						<div><P>{{c.fechaCita}}</P> <P>{{c.horaCita}}</P></div>
+					</td>
+					<td style="text-align: center">{{c.pacienteId}}</td>
+					
+					<td style="text-align: center">{{c.servicio.nombreServicio}}</td>
+
+					<td style="text-align:center;">
+						<a href="{% url 'detalle_cita' c.pk %}" class="btn"  style="color:white; background-color:blue"><span class="glyphicon glyphicon-pencil">Detalles</a>
+					</td>
+					<td style="text-align:center;">
+						<button onclick="return abrir_modal('{% url 'cancelar_cita' c.pk %}')"  style="color:white; background-color:red" class="btn btn-successtn">Cancelar</button>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% else %}
+		<h6>No hay citas para Hoy</h6>
+	{% endif %}
+</div>
+<br>
+
+
+<div class="modal fade" id="popup" role="dialog">
+
+</div>
+
+<script type="text/javascript">
+
+jQuery.noConflict();
+
+function abrir_modal(url)
+{
+    $('#popup').load(url, function(){
+		$(this).modal('show');
+	});
+}
+
+</script>
+
+{% endblock content%}

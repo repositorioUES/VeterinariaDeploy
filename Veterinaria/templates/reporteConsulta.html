@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+{% load static %}
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<style>
+    .img-invoice {
+        width: 50px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .head {
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    #invoice thead tr th {
+        text-align: left;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        padding-top: 4px;
+    }
+
+    #invoice thead tr {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    #invoice tbody tr {
+        padding: 0;
+    }
+
+    .text-center{
+        text-align: center;
+    }
+
+    #contenedor {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #contenedor > div {
+        width: 50%;
+    }
+
+
+</style>
+
+<body>
+    <p class="head">
+        <b>{{ consulta.medico|upper }}</b><br>
+        <b>{{ JVPMV|upper }}</b><br>
+        <b>{{ titulo2 }}</b><br>
+    </p>
+    <div class="d-flex justify-content-start">
+    <table>
+        <tr>
+           <td>
+            <p>
+                <b>PACIENTE:</b> {{ consulta.pacienteId.nombrePac }}<br>
+                <b>PESO:</b> {{ consulta.peso }}<br>
+            </p>
+            </td>
+            <td>
+             <p>
+                 <b>FECHA:</b> {{ consulta.fechaConsulta }} - {{ consulta.hora }}<br>
+                 <b>EDAD:</b> {{ consulta.edad }} años<br>
+             </p>
+             </td>
+         </tr>
+    </table>
+<p>
+    <b>RX </b> <br>
+</p>
+<p>
+    <b>Observacioines :</b> {% if consulta.observaciones != None%}{{ consulta.observaciones }} {% else %} - {% endif %}<br>
+</p>
+<p>
+    <b>Medicamento Recetado :</b> {% if consulta.medicamento != None%}{{ consulta.medicamento }} {% else %} - {% endif %}<br>
+</p>
+<p>
+    <b>Examenes :</b> {% if consulta.examenes != None%}{{ consulta.examenes }} {% else %} - {% endif %}<br>
+</p>
+
+    <p>
+        <b>PROXIMO CONTROL :</b> {{ consulta.proximoCont }}<br>
+    </p>
+    </div>
+    <table style="margin-top: 10px;">
+        <thead>
+        <tr>
+            <th>{{consulta.clinica.nombre}}</th>
+        </tr>
+        <tr>
+            <th>Asociacion de Veterinarios de El Salvador</th>
+        </tr>
+        </thead>
+    </table>
+    </body>
+    </html>
+    

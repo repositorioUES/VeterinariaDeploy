@@ -1,0 +1,29 @@
+
+<div class="modal-dialog modal-lg-4">
+	<div class="modal-content">
+
+		<form action=" {% url 'eliminar_paciente' paciente.pk %}" method="POST">
+
+             <div class="modal-body">
+				{% csrf_token %}
+				<div class="mdl-dialog__content" allign ="center">
+					<h4> ¿Realmente desea Eliminar al Paciente {{paciente.nombrePac}}? </h4>
+					<br>
+					<h5> Si lo hace, su expediente será eliminado </h5>
+					<h5> Si el propietario sólo tiene a este paciente registrado, también se eliminará </h5>
+					<br><br>
+					<h5><B>Propietario:</B> {{paciente.propietario}} </h5>
+					<h5><B>Pacientes Registrados:</B> {{cant}} </h5>
+				</div>
+			</div>
+					<div class="modal-footer">
+			                                <div class="col-lg-8 text-right"> 
+
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="background-color:red;color:white" type="submit">Si Eliminar</button>
+
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="background-color:green;color:white" data-dismiss="modal">No Eliminar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

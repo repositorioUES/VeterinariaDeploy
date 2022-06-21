@@ -1,0 +1,75 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+<div>
+    <h3>Detalles de la Consulta</h3>
+</div> 
+<br>
+<div>
+    <label><B>Médico:</B> </label>    {{consulta.medico}}
+</div>
+<div>
+    <label><B>Paciente:</B> </label>    {{consulta.pacienteId.nombrePac}}
+</div>
+<div>
+    <label><B>Edad:</B> </label>    {{consulta.edad}}
+</div>
+<div>
+    <label><B>Peso:</B> </label>    {{consulta.peso}}
+</div>
+<div>
+    <label><B>Fecha de Consulta:</B> </label>    {{consulta.fechaConsulta}}
+</div>
+<div>
+    <label><B>Hora:</B> </label>    {{consulta.hora}}
+</div>
+
+<table>
+    <tr>   
+        <td>
+            <label><B>Observaciones:</B> </label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {% if consulta.observaciones == None %} - {% else %} {{consulta.observaciones}}{%endif%}
+        </td>
+    </tr>
+    <tr>
+        <td> 
+            <label><B>Medicamentos:</B> </label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {% if consulta.medicamento == None %} - {% else %} {{consulta.medicamento}}{%endif%}
+        </td>
+    </tr>
+    <tr>
+        <td> 
+            <label><B>Exámenes:</B> </label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {% if consulta.examenes == None %} - {% else %} {{consulta.examenes}}{%endif%}
+        </td>
+    </tr>
+</table>
+<div>
+    <label><B>Clínica:</B> </label>    {{consulta.clinica.nombre}}
+</div>
+<div>
+    <label><B>Consultorio:</B> </label>    {{consulta.consultorio.nombre}}
+</div>
+<div>
+    <label><B>Próximo Control:</B> </label>    {{consulta.proximoCont}}
+</div>
+      
+<br>
+<div>       
+
+    <a href="javascript: history.go(-1)" class="btn btn-success" style="color:white; background-color:#f6685e">Regresar</a>
+</div>      
+
+{% endblock content%}

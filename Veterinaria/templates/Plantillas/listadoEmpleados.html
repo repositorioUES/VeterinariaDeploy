@@ -1,0 +1,78 @@
+{% extends 'base.html' %}  
+
+{% block title %}<title>Listado de Empleados</title>{% endblock title%}
+{% block content %}
+<div class="d-flex justify-content-start">
+		<a href="{% url 'crear_empleado' %}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Nuevo Empleado</a>     
+</div>&nbsp;
+
+<div class="row">
+    <div class="col-md">
+        <div class="card">
+            <div class="card-body">
+                <h2 align ="center">Listado de Empleados</h2>
+                <table  class="table table-bordered ">
+					<tr style="text-align: center; background-color: #393c7f; color:whitesmoke;">
+						<th style="text-align: center">Estado</th>
+						<th style="text-align: center">Empleado</th>
+						<th style="text-align: center">Clinica</th>
+						<th style="text-align: center">Consultorio</th>
+						<th style="text-align: center">Cargo</th>
+						<th>Detalle</th>
+						<th style="text-align: center">Cambiar Estado</th>
+						<th>Borrar</th>
+					</tr>
+					{% for p in empleados %}
+						
+						<tr>
+							<td style="text-align: center">
+								{% if p.activo == 1 %} ACTIVO {% else %} INACTIVO {% endif %}
+							</td>
+							<td style="text-align: center">
+								<div>{{p.nombreEmp}}</div>
+							</td>
+							<td style="text-align: center">
+								<div>{{p.consultorio.clinica.nombre}}</div>
+							</td>
+							<td style="text-align: center">
+								{{p.consultorio}}
+							</td>
+							<td style="text-align: center">
+								{{p.cargo}}
+							</td>
+							<td style="text-align: center">
+								<a href="{% url 'detalle_empleado' p.duiEmp %}" class="btn btn-primary" style="color:white;"><i class="fa fa-eye" aria-hidden="true"></i></a>
+							</td>
+							<td style="text-align:center;">
+								<button onclick="return abrir_modal('{% url 'cambiar_estado' p.duiEmp %}')"  style="color:white; background-color:orange" class="btn btn-successtn"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+							</td>
+							<td style="text-align:center;">
+								<button onclick="return abrir_modal('{% url 'eliminar_empleado' p.duiEmp %}')"  style="color:white; background-color:red" class="btn btn-successtn"><i class="fa fa-trash" aria-hidden="true"></i></button>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+            </div>
+        </div>
+    </div>
+
+
+<div class="modal fade" id="popup" role="dialog">
+
+</div>
+
+<script type="text/javascript">
+
+jQuery.noConflict();
+
+function abrir_modal(url)
+{
+    $('#popup').load(url, function(){
+		$(this).modal('show');
+	});
+}
+
+</script>
+</div>&nbsp;
+
+{% endblock content%}

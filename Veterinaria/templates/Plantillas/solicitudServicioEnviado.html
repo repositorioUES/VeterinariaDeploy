@@ -1,0 +1,15 @@
+{% extends 'base.html' %}   
+
+{% block title %}<title>inicio</title>{% endblock title%}
+
+{% block content %}
+
+<div class="container">
+	<h5>Tu solicitud ha sido guardada, gracias por tu propuesta, la analizaremos detenidamente</h5>
+</div>
+<div class="container">
+	<div>  
+        <a class="btn btn-outline-primary" href="{% url 'index'%}">Aceptar</a>&nbsp; 
+	</div>
+</div>
+{% endblock content%}   

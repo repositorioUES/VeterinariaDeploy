@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+{% load static %}
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<style>
+    .img-invoice {
+        width: 50px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .head {
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    #invoice thead tr th {
+        text-align: left;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        padding-top: 4px;
+    }
+
+    #invoice thead tr {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    #invoice tbody tr {
+        padding: 0;
+    }
+
+    .text-center{
+        text-align: center;
+    }
+
+    #contenedor {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #contenedor > div {
+        width: 50%;
+    }
+
+
+</style>
+
+
+<body>
+<p class="head">
+    <b>Paciente: {{ vacuna.paciente }}</b><br>
+    <b>Raza: {{ vacuna.paciente.raza }}</b><br>
+    <b>Fecha de Nacimiento: {{ vacuna.paciente.fechaNacimPac }}</b><br>
+</p>
+
+<table  class="table table-sm">
+    <tr style="text-align: center; background-color: #393c7f; color:whitesmoke;">
+        <th style="text-align: center">Fecha de Aplicación</th>
+        <th style="text-align: center">Nombre de Vacuna</th>
+        <th style="text-align: center">Lote</th>
+        <th style="text-align: center">Próxima Aplicación</th>
+        <th style="text-align: center">Médico que la Aplicó</th>
+    </tr>
+    {% for v in vacunas %}
+    <tr>
+        <td style="text-align: center">{{v.fechaAplic}}</td>
+        <td style="text-align: center">{{v.nombre}}</td>
+        <td style="text-align: center">{{v.lote}}</td>
+        <td style="text-align: center">{{v.fechaProx}}</td>
+        <td style="text-align: center">{{v.aplicador}}</td>
+    {% endfor %}
+</table>
+</body>
+</html>

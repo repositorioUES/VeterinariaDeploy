@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+{% load static %}
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<style>
+    .img-invoice {
+        width: 50px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .head {
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    #invoice thead tr th {
+        text-align: left;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        padding-top: 4px;
+    }
+
+    #invoice thead tr {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    #invoice tbody tr {
+        padding: 0;
+    }
+
+    .text-center{
+        text-align: center;
+    }
+
+    #contenedor {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #contenedor > div {
+        width: 50%;
+    }
+
+
+</style>
+
+
+<body>
+<p class="head">
+    <b>{{ titulo1|upper }}</b><br>
+    <b>{{ titulo2 }}</b><br>
+</p>
+<div style="text-align: center;">
+    <img src="{{ paciente.foto.url }}" height="250px">
+</div>
+
+<table>
+    <tr>
+       <td>
+        <h1>Datos del paciente</h1>
+        <p>
+            <b>NOMBRE PACIENTE:</b> {{ paciente.nombrePac }}<br>
+            <b>ESPECIE:</b> {{ paciente.especie }}<br>
+            <b>COLOR:</b> {{paciente.color}}<br>
+            <b>FECHA NACIMIENTO:</b> {{paciente.fechaNacimPac}}<br>
+            <b>SEXO:</b> {{paciente.sexo}}<br>
+            <b>RAZA:</b> {{paciente.raza}}<br>
+            <b>OBSERVACIONES:</b> {{paciente.observaciones}}<br>
+        </p>
+    </td>
+    <td><br>
+        <h1>Datos del Propietario</h1>
+        <p>
+            <b>NOMBRE :</b> {{ paciente.propietario }}<br>
+            <b>DUI:</b> {{ paciente.propietario.dui }}<br>
+            <b>EDAD:</b> {{paciente.propietario.edad}}<br>
+            <b>DIRECCION:</b> {{paciente.propietario.direccion}}<br>
+            <b>TELEFONOS:</b> {{paciente.propietario.telefono}}<br>
+            <b>FECHA NACIMIENTO:</b> {{ paciente.propietario.fechaNacim }}<br>
+            <b>DEPARTAMENTO:</b> {{ paciente.propietario.departamento }}<br>
+            <b>MUNICIPIO:</b> {{paciente.propietario.municipio}}<br>
+            <b>CORREO ELECTRONICO:</b> {{paciente.propietario.correo}}<br>
+        </p>
+    </td>
+</tr>
+</table>
+<p>
+    <b>FECHA DE INSCRIPCION :</b> {{ paciente.fechaInscrip }}<br>
+    <b>PERSONA QUE INSCRIBIO:</b> {{ paciente.personaInscrip }}<br>
+</p>
+
+<table style="margin-top: 10px;">
+    <thead>
+    <tr>
+        <th>****Pet & Leafde****</th>
+    </tr>
+    <tr>
+        <th>Proyecto Diseño de Sistemas</th>
+    </tr>
+    </thead>
+</table>
+</body>
+</html>

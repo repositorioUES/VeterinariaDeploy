@@ -1,0 +1,43 @@
+{% extends 'base.html' %}  
+{% block title %}<title>Listado de Servicios Inactivos</title>{% endblock title%}
+{% block content %}
+
+<div class="d-flex justify-content-start">
+	<a href="{% url 'listado_servicios' %}" class="btn btn-success">Servicios activos</a>
+</div>&nbsp;
+
+<div class="row">
+	<div class="col-md">
+		<div class="card">
+			<div class="card-body">
+				<h3 align="center">Listado de Servicios Inactivos</h3>
+				<table class="table table-bordered ">
+					<tr style="text-align: center; background-color: #393c7f; color:whitesmoke;">
+						<th style="text-align: center">Servicios</th>
+						<th style="text-align: center">Categoria</th>
+						<th style="text-align: center">Detalles</th>
+						<th style="text-align: center">Gestionar</th>
+					</tr>
+					{% for p in servicios %}
+					<tr>
+						<td style="text-align: center">
+							<div>{{p.nombreServicio}}</div>
+						</td>
+						<td style="text-align: center">
+							<div>{{p.catServicio}}</div>
+						</td>
+						<td style="text-align: center">
+							<a href="{% url 'detalle_servicios' p.idServicio  %}" class="btn btn-primary">Detalles</a>
+						</td>
+						<td style="text-align: center">
+							<a href="{% url 'modificar_servicio' p.idServicio %}" class="btn btn-primary">Modificar</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+</div>&nbsp;
+
+{% endblock content%}

@@ -1,0 +1,28 @@
+
+<div class="modal-dialog modal-lg-4">
+	<div class="modal-content">
+
+		<form action=" {% url 'cambiar_estado' empleado.duiEmp %}" method="POST">
+
+             <div class="modal-body">
+				{% csrf_token %}
+				<div class="mdl-dialog__content" allign ="center">
+					<h4> ¿Desea Cambiar el Estado de éste Empleado: {{empleado}}? </h4>
+					<br>
+					<h5> Se cambiará el estado de {% if empleado.activo == 1 %} ACTIVO {% else %} INACTIVO {% endif %} </h5>
+					<h5> por el estado de {% if empleado.activo == 1 %} INACTIVO {% else %} ACTIVO {% endif %} </h5>
+					
+				</div>
+			</div>
+					<div class="modal-footer">
+			        <div class="col-lg-8 text-right"> 
+
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="background-color:red;color:white" type="submit">Si Cambiar</button>
+
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="background-color:green;color:white" data-dismiss="modal">No Cambiar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+

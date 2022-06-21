@@ -1,0 +1,31 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+<div>
+    <h3>Detalle de la Solicitud</h3>
+</div> 
+
+<br>
+
+<div>
+    <B><label>Nombre del Solicitante: </label> </B>   {{soliservi.solicitante}}
+</div>
+<div>
+    <B><label>Nombre de la Clínica: </label></B>    {{soliservi.nombreClinica}}
+</div>
+<div>
+    <B><label>Nombre del Servicio: </label> </B>   {{soliservi.nombreServicio}}
+</div>
+<div>
+    <B><label>Razón de la solicitud: </label></B>    {{soliservi.razonSolicitud}}
+</div>
+<div>
+    <B><label>Categoria sugerida: </label> </B>   {{soliservi.catSolicitud}}
+</div>
+      
+<br>
+<div>       
+    <a href="{% url 'listado_solicitud_servicio' %}" class="btn btn-danger">Regresar</a>
+</div>      
+
+{% endblock content%}

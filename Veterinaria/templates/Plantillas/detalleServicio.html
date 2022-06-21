@@ -1,0 +1,28 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+<div>
+    <h3>Detalle del Servicio</h3>
+</div> 
+
+<br>
+
+<div>
+    <b><label>Nombre del servicio: </label></b>    {{servicio.nombreServicio}}
+</div>
+<div>
+    <b><label>Descripcion del servicio: </label></b>      {{servicio.descServicio}}
+</div>
+<div>
+    <b><label>Categoria: </label></b>      {{servicio.catServicio}}
+</div>
+<div>
+    <b><label>Estado: </label></b>      {{servicio.estadoServicio}}
+</div>
+
+<br>
+<div>       
+    <a href="{% url 'listado_servicios' %}" class="btn btn-danger">Regresar</a>
+</div>      
+
+{% endblock content%}

@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+{% load static %}
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<style>
+    .img-invoice {
+        width: 50px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .head {
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    #invoice thead tr th {
+        text-align: left;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        padding-top: 4px;
+    }
+
+    #invoice thead tr {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    #invoice tbody tr {
+        padding: 0;
+    }
+
+    .text-center{
+        text-align: center;
+    }
+
+    #contenedor {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #contenedor > div {
+        width: 50%;
+    }
+
+
+</style>
+
+
+<body>
+<p class="head">
+    <b>{{ titulo1|upper }}</b><br>
+    <b>{{ titulo2 }}</b><br><br>
+
+    <b>{{ titulo3|upper }}</b><br>
+</p>
+
+<table  class="table table-sm">
+    {% comment %} <tr style="text-align: center; background-color: #393c7f; color:whitesmoke;">
+        <th style="text-align: center">Fecha de Aplicación</th>
+        <th style="text-align: center">Nombre de Vacuna</th>
+        <th style="text-align: center">Lote</th>
+        <th style="text-align: center">Próxima Aplicación</th>
+        <th style="text-align: center">Médico que la Aplicó</th>
+    </tr> {% endcomment %}
+    {% for m in fechas %}
+        <tr>
+            <td width ="75"><h5>{{m}}</h5></td>
+            <td>
+                <table >
+                    <tr>
+                        <th style="text-align: center">Paciente</th>
+                        <th style="text-align: center">Médico que Antendió</th>
+                    </tr>
+                    {% for c in consultas%}
+                        {% if c.fechaConsulta == m%}
+                            <tr>
+                                <td style="text-align: center">{{c.pacienteId.nombrePac}}</td>
+                                <td style="text-align: center">{{c.medico}}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

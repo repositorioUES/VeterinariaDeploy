@@ -1,0 +1,81 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+<div>
+<h5> Expediente Nuevo</h5>
+</div>
+
+<div>
+    <form role="form" method="POST" enctype ="multipart/form-data" >
+        {% csrf_token %}
+ 
+            <div>
+                <B><label>Buscar Paciente: Introduzca el Nombre del Paciente, Nombre o DUI del Propietario</label></B>
+                
+            </div>
+          
+        <table>
+            <tr>
+                <td  width="150">
+                    
+                </td>
+                <td>
+                    <input type="text" placeholder="Buscar Paciente" id="id_buscar" name="buscar" value="{{ request.GET.buscar }}">
+                </td>
+            </tr>
+            <tr>
+                <td  width="150">
+                    <B><label for="{{form.pacienteId.name}}">{{form.pacienteId.label}}</label></B>
+                </td>
+                <td>
+                    {{form.pacienteId}}
+                </td>
+            </tr>
+            <tr>
+                <td  width="150">
+                    <B><label for="{{form.clinica.name}}">{{form.clinica.label}}</label></B>
+                </td>
+                <td>
+                    {{form.clinica}}
+                </td>
+            </tr>
+        </table>   
+
+        <br>
+        <div>   
+            <input type="submit"  class="btn btn-success" style="background-color:#33CC00;color:white" name="submit" value="Crear">
+
+            <a href="{% url 'listado_pacientes' %}" class="btn btn-success" style="color:white; background-color:#f6685e">Cancelar</a>
+        </div>      
+    </form>
+</div> 
+
+<script>
+
+    $(document).ready(function(){
+        $("#id_buscar").on("change", getPaciente);    
+    });
+
+    function getPaciente(){
+        var filtro = $("#id_buscar").val();
+        if (filtro){
+            $("#id_pacienteId").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_Paciente' %}",
+                data: {
+                    "filtro":filtro
+                },
+            });
+            request.done(function(response){
+                $("#id_pacienteId").html(response);
+               
+            });
+    
+        }else{
+            $("#id_pacienteId").html('<option value="" selected = "selected">-----------</option>');      
+            $("#id_pacienteId").trigger("change");
+        }
+    }
+</script>
+{% endblock content%}

@@ -1,0 +1,84 @@
+{% extends 'base.html'%}
+
+{% block title %}<title>Listado de Clinicas</title>{% endblock title%}
+
+{% block content %}
+<div class="d-flex justify-content-end">
+    <a class="btn btn-success" href="{% url 'registrar_clinica' %}" ><i class="fa fa-plus" aria-hidden="true"></i> Registrar Clínica</a>
+    &nbsp;
+	<a class="btn btn-danger " href="{% url 'consolidadosAsoc'%}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Consolidados</a>
+&nbsp;
+    {% comment %} <a class="btn btn-info " href="{% url 'crear_solicitud_servicio'%}">Sugerir Servicio</a> {% endcomment %}
+</div>&nbsp;
+
+<div class="row">
+    <div class="col-md">
+        <div class="card">
+            <div class="card-body">
+                <form method="GET">
+                    <button class="btn btn-primary" type="submit">Buscar</button>
+                    {{filter.form}}
+                  </form>&nbsp;&nbsp;
+                <h2 align ="center">Clínicas asociadas</h2>
+                <table class="table  table-bordered ">
+                    <tr style="text-align: center; background-color: #393c7f; color:whitesmoke;" >
+                        <th>Consultorios</th>
+                        <th>Propietario de la Veterinaria</th>
+                        <th>Nombre de la Clinica</th>
+                        <th >Dirección</th>
+                        <th>Fecha de ingreso</th>
+                        <th>Estado</th>
+                        <th>Gestionar</th>
+                    </tr>
+
+                    {%for clinica in entity %}
+                    <tr>
+                        <td  style="text-align: center;"><a class="btn btn-sm btn-primary" href="{% url 'listar_consultorio' clinica.id %}"> <i class="fa fa-home" aria-hidden="true"></i> Ver</a></td>
+                        <td>{{ clinica.propietario }}</td>
+                        <td>{{ clinica.nombre }}</td>
+                        <td>{{ clinica.direccion }}</td>
+                        <td>{{ clinica.fechaIngreso}}</td>
+                        <td>{{ clinica.estado}}</td>
+                        <td> <a href="{% url 'modificar_clinica' clinica.id %}"><i class="fa fa-pencil fa-2x" aria-hidden="true" style="font-size:24px;color:rgb(238, 204, 9);text-shadow:2px 2px 4px #000000;"></i></a>&nbsp;&nbsp;
+                            {% if clinica.id not in clinicasId%}
+                            <a href="#" onclick="eliminarClinica({{ clinica.id }})"><i class="fa fa-trash-o fa-2x" aria-hidden="true" style="font-size:24px;color:rgb(212, 10, 10);text-shadow:2px 2px 4px #000000;"></i></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {%endfor%}
+
+                </table>
+                <div class="d-flex justify-content-center">
+                    {% include 'paginator.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>&nbsp;
+
+<div class="d-flex justify-content-center">
+    <a class="btn btn-danger" href="{% url 'index' %}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar</a>
+</div>
+
+{% endblock content%} 
+
+{% block js %}
+<script>
+    function eliminarClinica(id){
+        Swal.fire({
+            title: 'Estas seguro de eliminar esta clinica?',
+            showCancelButton: true,
+            confirmButtonText: 'Si, Eliminar',
+            confirmButtonColor: '#FF0000',
+            cancelButtonText: 'No, Cancelar',
+            reverseButtons: true,
+
+    }).then(function(result) {
+
+        if (result.isConfirmed) {
+            window.location.href = "/eliminar_clinica/"+id+"/"
+            } 
+        }) 
+    }
+</script>
+{% endblock  %}

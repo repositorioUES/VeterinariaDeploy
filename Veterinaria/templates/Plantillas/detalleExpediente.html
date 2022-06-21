@@ -1,0 +1,175 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+<div>
+    <h3>Paciente: {{exp.pacienteId.nombrePac}}</h3>
+</div> 
+
+<div>
+    <h5>Expediente Nº: 
+    {% if exp.id <= 9 %}
+        00000{{exp.id}}
+    {% endif %}
+    {% if exp.id >= 10 %}
+        {% if exp.id <= 99 %}
+            0000{{exp.id}}
+        {% endif %}
+    {% endif %}
+    {% if exp.id >= 100 %}
+        {% if exp.id <= 999 %}
+            000{{exp.id}}
+        {% endif %}
+    {% endif %}
+    {% if exp.id >= 1000 %}
+        {% if exp.id <= 9999 %}
+            00{{exp.id}}
+        {% endif %}
+    {% endif %}
+    {% if exp.pacienteId.activo == 0%}
+        ( INACTIVO )
+    {% endif%}
+    </h5>
+</div>
+
+<div>
+    {% if exp.pacienteId.activo == 1%}
+        {% if sinVacunas == 1 %} 
+        <a href="{% url 'agregar_vacuna' exp.pacienteId.pk %}" class="btn btn-success" style="color:white; background-color:red"><i class="fa fa-star" aria-hidden="true"></i> Iniciar Esquema de Vacunación</a>
+        {% else %}
+        <a href="{% url 'agregar_vacuna' exp.pacienteId.pk %}" class="btn btn-info" ><i class="fa fa-plus" aria-hidden="true"></i> Vacuna</a>    
+        {% endif%}    
+
+        <a href="{% url 'registrar_consulta' exp.pacienteId.pk%}" class="btn btn-success""><i class="fa fa-plus" aria-hidden="true"></i> Consulta</a>  
+    {% endif%}
+    <a href="{% url 'listado_pacientes'%}" class="btn btn-danger"><i class="fa fa-minus" aria-hidden="true"></i> Regresar</a>
+</div>  
+<br>
+    <div>
+            <img src=" {{ exp.pacienteId.foto.url }}"/>
+    </div>
+
+    <table class = "table table-bordered">
+        <tr>
+            <td>
+                <div>
+                    <B><label>Propietario : </label></B>    {{exp.pacienteId.propietario}}
+                </div>
+                <div>
+                    <B><label>Fecha de Nacimiento: </label></B>    {{exp.pacienteId.fechaNacimPac}}
+                </div>
+                <div>
+                <B><label>Especie: </label></B>    {{exp.pacienteId.especie}}
+                </div>
+                <div>
+                    <B><label>Sexo: </label></B>    {% if exp.pacienteId.sexo == 'h' %}Hembra{%else%}Macho{%endif%}
+                </div>
+                <div>
+                    <B><label>Raza: </label></B>    {{exp.pacienteId.raza}}
+                </div>
+                <div>
+                    <B><label>Color: </label></B>    {{exp.pacienteId.color}}
+                </div>
+            </td>
+      
+            <td style="text-align: top">    
+                 <div >
+                    <B><label>Incrito en Clinica: </label></B>    {{exp.clinica}}
+                </div>
+                <div >
+                    <B><label>Consultorio: </label></B>    {{exp.consultorio}}
+                </div>
+                <div>
+                    <B><label>Fecha de Inscripción: </label></B> 
+                </div>
+                <div>
+                   {{exp.pacienteId.fechaInscrip}}
+                </div>
+                <div>
+                    <B><label>Persona que Inscribió: </label></B>  
+                </div>
+                <div>
+                    {{exp.pacienteId.personaInscrip}}
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div>
+        <B><label>Observaciones: </label></B><br>  
+        <table>  
+            <tr>
+                <td width="800">
+                    {% if exp.pacienteId.observaciones == None %}
+                        -
+                    {% else %}
+                        <p>{{exp.pacienteId.observaciones}}</p>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+{% if sinVacunas == 0%}
+<div>
+    <h5>Esquema de Vacunación:</h5> 
+</div>
+<table  class="table table-sm">
+		<tr style="text-align: center; background-color: #393c7f; color:whitesmoke;">
+			<th style="text-align: center">Fecha de Aplicación</th>
+            <th style="text-align: center">Nombre de Vacuna</th>
+			<th style="text-align: center">Lote</th>
+            <th style="text-align: center">Próxima Aplicación</th>
+            <th style="text-align: center">Médico que la Aplicó</th>
+            {% comment %} <th style="text-align: center">Vacunas</th> {% endcomment %}
+		</tr>
+		{% for v in vacunas %}
+		<tr>
+			<td style="text-align: center">{{v.fechaAplic}}</td>
+			<td style="text-align: center">{{v.nombre}}</td>
+            <td style="text-align: center">{{v.lote}}</td>
+            <td style="text-align: center">{{v.fechaProx}}</td>
+            <td style="text-align: center">{{v.aplicador}}</td>
+            {% comment %} <td style="text-align:center;">
+                <a href="{% url 'reporte_Vacuna' exp.pacienteId.pk %}" class="btn"
+                    style="color:white; background-color:rgb(199, 2, 2)"><i class="fa fa-file-pdf-o"
+                        aria-hidden="true"></i></a>
+            </td> {% endcomment %}
+		{% endfor %}
+	</table>
+{% endif %}
+
+<div>
+    <h5>Historial de Consultas: </h5> 
+</div>
+<table  class="table table-sm">
+		<tr style="text-align: center; background-color: #393c7f; color:whitesmoke;">
+			<th style="text-align: center">Fecha de Consulta</th>
+            <th style="text-align: center">Hora</th>
+			<th style="text-align: center">Médico</th>
+            <th style="text-align: center">Detalles</th>
+            <th style="text-align: center">Reportes</th>
+		</tr>
+		{% for c in cons %}
+		<tr>
+			<td style="text-align: center">
+				{{c.fechaConsulta}}
+			</td>
+			<td style="text-align: center">
+                {{c.hora}}
+            </td>
+            <td style="text-align: center">
+                {{c.medico}}
+            </td>
+			<td style="text-align:center;">
+					<a href="{% url 'detalle_consulta' c.pk %}" class="btn"  style="color:white; background-color:blue"><i class="fa fa-eye" aria-hidden="true"></i></a>
+				</td>
+            <td style="text-align:center;">
+                <a href="{% url 'reporte_Consulta' c.pk %}" class="btn"
+                    style="color:white; background-color:rgb(199, 2, 2)"><i class="fa fa-file-pdf-o"
+                        aria-hidden="true"></i></a>
+            </td>
+			</tr>
+		{% endfor %}
+	</table>
+
+
+{% endblock content%}

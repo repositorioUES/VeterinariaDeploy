@@ -1,0 +1,223 @@
+{% extends 'base.html' %}  
+{%load static%}
+
+{% block title %}<title>Nueva Consulta </title>{% endblock title%}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+    {% comment %} <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            <div class="card bg-light text-dark">
+                <div class="card-body" style="background-color: #b9bbc281;"> {% endcomment %}
+                    <h2 align="center">Agregar Consulta </h2>
+                    <hr>
+    <form role="form" method="POST" enctype ="multipart/form-data" >
+        {% csrf_token %}
+
+        <table>
+            <tr>
+                <td  width="150">
+                    <B><label for="{{form.medico.name}}">{{form.medico.label}}</label></B>
+                </td>
+                <td>
+                    {{form.medico}}
+                </td>
+            </tr>
+        </table>
+          
+        <table>
+            <tr>
+                <td>
+                    <!-- Solo por ocupar espacio XD -->
+                </td>
+            <!--<td>
+                    <B><label>Introduzca el Nombre del Paciente, Nombre o DUI del Propietario</label></B>
+                    <br>
+                    <input type="text" placeholder="Buscar Paciente" id="id_buscar" name="buscar" value="{{ request.GET.buscar }}">
+                </td> -->
+            </tr>
+            <tr>
+                <td  width="150">
+                    <B><label for="{{form.pacienteId.name}}">{{form.pacienteId.label}}</label></B>
+                </td>
+                <td>
+                    {{form.pacienteId}}
+                </td>
+            </tr>
+            <tr>
+                <td  width="150">
+                    <B><label for="{{form.edad.name}}">{{form.edad.label}}</label></B>
+                </td>
+                <td>
+                    {{form.edad}}
+                </td>
+            </tr>
+            <tr>
+                <td  width="150">
+                    <B><label for="{{form.peso.name}}">{{form.peso.label}}</label></B>
+                </td>
+                <td>
+                    {{form.peso}}
+                </td>
+            </tr>
+            <tr>
+                <td  width="150">
+                    <B><label for="{{form.hora.name}}">{{form.hora.label}}</label></B>
+                </td>
+                <td>
+                    {{form.hora}}
+                    <label>##:## ( am/pm )</label>
+                </td>
+            </tr>
+            <tr>
+                <td  width="150">
+                    <B><label for="{{form.observaciones.name}}">{{form.observaciones.label}}</label></B>
+                </td>
+                <td>
+                    {{form.observaciones}}
+                </td>
+            </tr>
+            <tr>
+                <td  width="150">
+                    <B><label for="{{form.medicamento.name}}">{{form.medicamento.label}}</label></B>
+                </td>
+                <td>
+                    {{form.medicamento}}
+                </td>
+            </tr>
+            <tr>
+                <td  width="150">
+                    <B><label for="{{form.examenes.name}}">{{form.examenes.label}}</label></B>
+                </td>
+                <td>
+                    {{form.examenes}}
+                </td>
+            </tr>
+             <tr>
+                <td>
+                    <!-- Solo por ocupar espacio XD -->
+                </td>
+                <td>
+                    <B><label>Introduzca el Nombre la Clínica para buscarla</label></B>
+                    <br>
+                    <input type="text" placeholder="Buscar Clínica" id="id_buscarClinica" name="buscarClinica" value="{{ request.GET.buscarClinica }}">
+                </td>
+            </tr>
+            <tr>
+                <td  width="150">
+                    <B><label for="{{form.clinica.name}}">{{form.clinica.label}}</label></B>
+                </td>
+                <td>
+                    {{form.clinica}}
+                </td>
+            </tr>
+            <tr>
+                <td  width="150">
+                    <B><label for="{{form.consultorio.name}}">{{form.consultorio.label}}</label></B>
+                </td>
+                <td>
+                    {{form.consultorio}}
+                </td>
+            </tr>
+            <tr>
+                <td  width="150">
+                    <B><label for="{{form.proximoCont.name}}">{{form.proximoCont.label}}</label></B>
+                </td>
+                <td>
+                    {{form.proximoCont}}
+                </td>
+            </tr>
+        </table>   
+
+        <br>
+        <div>   
+            <input type="submit"  class="btn btn-success" style="background-color:#33CC00;color:white" name="submit" value="Crear">
+
+            <a href="javascript: history.go(-1)" class="btn btn-success" style="color:white; background-color:#f6685e">Cancelar</a>
+        </div>      
+    </form>
+</div> 
+
+<script>
+    //document.getElementById("id_pendiente").type ="hidden"; // deshabilitar
+    document.getElementById("id_pacienteId").readOnly="True"; // deshabilitar
+
+    $(document).ready(function(){
+        $("#id_buscar").on("change", getPaciente);   
+        $("#id_buscarClinica").on("change", getClinica);  
+
+        $("#id_clinica").on("change", getConsultorios);
+    });
+
+    function getPaciente(){
+        var filtro = $("#id_buscar").val();
+        var valor ="";
+        if (filtro){
+            valor = filtro;
+        }else{
+            valor = "-"
+        }
+            $("#id_pacienteId").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_Paciente' %}",
+                data: {
+                    "filtro":valor
+                },
+            });
+            request.done(function(response){
+                $("#id_pacienteId").html(response);
+               
+            });
+    
+        /*else{
+            $("#id_pacienteId").html('<option value="" selected = "selected">-----------</option>');      
+            $("#id_pacienteId").trigger("change");
+        }*/
+    }
+
+    function getClinica(){
+        var filtro = $("#id_buscarClinica").val();
+        var valor ="";
+        if (filtro){
+            valor = filtro;
+        }else{
+            valor = "-"
+        }
+            $("#id_clinica").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_Clinica' %}",
+                data: {
+                    "clinicId":valor
+                },
+            });
+            request.done(function(response){
+                $("#id_clinica").html(response);
+               
+            });
+    }
+
+    function getConsultorios(){
+        var valor = $("#id_clinica").val();
+        if (valor){
+            $("#id_consultorio").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_consultorio' %}",
+                data: {
+                    "consultId":valor
+                },
+            });
+            request.done(function(response){
+                $("#id_consultorio").html(response);
+                
+            });
+        
+        }else{
+            $("#id_consultorio").html('<option value="" selected = "selected">-----------</option>');      
+            $("#id_consultorio").trigger("change");
+        }
+    }
+</script>
+{% endblock content%}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}  
+
+{% load static%}
+
+{% block title %}<title>Registro Empleado</title>{% endblock title%}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="row" >
+        <div class="col-12 col-md-6 offset-md-3" >
+            <div class="card bg-light text-dark" >
+                <div class="contenedor_logo" align="center" style="background-color: #b9bbc281;">
+                    <img  class="logo"  src="{% static 'images/registro.png'%}" alt="logo">
+                </div>
+                <div class="card-body" style="background-color: #b9bbc281;">
+                    <h2>Registro de Empleado</h2>
+                    <hr>
+                    <form action="" method="post">
+
+                        {%csrf_token%}
+                        {{ form|crispy}}
+
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-danger" href="{% url 'listado_empleados' %}"><i class="fa fa-ban" aria-hidden="true"></i> Cancelar</a>
+                            &nbsp;
+                            <button  type="submit" class="btn btn-success float-right"><i class="fa fa-check" aria-hidden="true"></i> Registrar</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content%}
+
+{% block js %}
+<script>
+    //document.getElementById("id_pendiente").type ="hidden"; // deshabilitar
+    window.onload = VaciarSelects();
+
+    $(document).ready(function(){
+      
+        $("#id_clinica").on("change", getConsultorios);
+    });
+    
+    function getConsultorios(){
+        var valor = $("#id_clinica").val();
+        if (valor){
+            $("#id_consultorio").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_consultorio' %}",
+                data: {
+                    "consultId":valor
+                },
+            });
+            request.done(function(response){
+                $("#id_consultorio").html(response);
+                
+            });
+        
+        }else{
+            $("#id_consultorio").html('<option value="" selected = "selected">-----------</option>');      
+            $("#id_consultorio").trigger("change");
+        }
+    }
+
+    function VaciarSelects(){
+        $("#id_consultorio").html('<option value="" selected = "selected">-----------</option>');
+    }
+</script>
+{% endblock js %}

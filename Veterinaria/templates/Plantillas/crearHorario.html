@@ -1,0 +1,99 @@
+{% extends 'base.html'%}
+{%load static%}
+
+{% block title %}<title>Nuevo Horario</title>{% endblock title%}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            <div class="card bg-light text-dark">
+                <div class="card-body" style="background-color: #b9bbc281;">
+                    <h2 align="center">Nuevo Horario </h2>
+                    <hr>
+                    <form role="form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div>
+                            <B><label>Introduzca el Nombre de la Clínica</label></B>
+                            <input type="text" placeholder="Buscar Clínica" id="id_buscar" name="buscar"
+                                value="{{ request.GET.buscar }}">
+                        </div>
+                        {{ form|crispy}}
+
+
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-danger" href="{% url 'listado_horarios' %}"><i class="fa fa-ban"
+                                    aria-hidden="true"></i> Cancelar</a>
+                            &nbsp;
+                            <button type="submit" class="btn btn-success float-right"><i class="fa fa-check"
+                                    aria-hidden="true"></i> Guardar</button>
+                        </div>
+
+                    </form>
+                </div>
+
+<script>
+    //document.getElementById("id_pendiente").type ="hidden"; // deshabilitar
+    window.onload = getClinicasActivas();
+    
+    $(document).ready(function(){
+        $("#id_buscar").on("change", getClinica);    
+    });
+
+    function getClinicasActivas(){
+        $("#id_clinica").html("");
+        var request = $.ajax({
+            type: "GET",
+            url: "{% url 'load_Clinica_Activa' %}",
+            data: {
+                "consultId":"-"
+            },
+        });
+        request.done(function(response){
+            $("#id_clinica").html(response);
+                
+        });
+    }
+
+    function getClinica(){
+        var clinicId = $("#id_buscar").val();
+        if (clinicId){
+            $("#id_clinica").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_Clinica' %}",
+                data: {
+                    "clinicId":clinicId
+                },
+            });
+            request.done(function(response){
+                $("#id_clinica").html(response);
+               
+            });
+    
+        }
+        else{
+            var vacio = "-"
+             $("#id_clinica").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_Clinica' %}",
+                data: {
+                    "clinicId":vacio
+                },
+            });
+            request.done(function(response){
+                $("#id_clinica").html(response);
+               
+            });
+        }
+        /*else{
+            $("#id_clinica").html('<option value="" selected = "selected">-----------</option>');      
+            $("#id_clinica").trigger("change");
+        }*/
+    }
+
+</script>
+
+{% endblock content%}

@@ -1,0 +1,131 @@
+{% extends 'base.html' %}  
+{%load static%}
+{% block title %}<title>Registrar Paciente y Propietario</title>{% endblock title%}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            <div class="card bg-light text-dark">
+                <div class="card-body" style="background-color: #b9bbc281;">
+                    <h2 align="center">Registro de Pacientes</h2>
+                    <hr>
+    <form role="form" method="POST" enctype ="multipart/form-data" >
+        {% csrf_token %}
+    
+        <h5>Datos del Paciente</h5>
+        {{ form|crispy}}
+
+        <div>
+            <B><label>Introduzca el Nombre o DUI del Propietario</label></B>
+            <input  type="text" placeholder="Buscar Propietario" id="id_buscar" name="buscar" value="{{ request.GET.buscar }}">
+        </div>
+        <br>
+        <h5>Datos para el Expediente</h5>
+        {{ form2|crispy}}
+
+
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-danger" href="{% url 'listado_pacientes' %}"><i class="fa fa-ban"
+                    aria-hidden="true"></i> Cancelar</a>
+            &nbsp;
+            <button type="submit" class="btn btn-success float-right"><i class="fa fa-check"
+                    aria-hidden="true"></i> Guardar</button>
+                </div>     
+    </form>
+</div> 
+
+<script type="text/javascript">
+
+    document.getElementById("id_activo").type ="hidden"; // deshabilitar.
+    document.getElementById("id_activo").value ="true"; // deshabilitar
+    window.onload = getClinicasActivas();
+
+    function getClinicasActivas(){
+        $("#id_clinica").html("");
+        var request = $.ajax({
+            type: "GET",
+            url: "{% url 'load_Clinica_Activa' %}",
+            data: {
+                "consultId":"-"
+            },
+        });
+        request.done(function(response){
+            $("#id_clinica").html(response);
+                
+        });
+    }
+
+// SELECT DEPENDIENTE PARA LOS MUNICIPIOS====================================
+
+    $(document).ready(function(){
+        $("#id_buscar").on("change", getPropietario);    
+
+        $("#id_clinica").on("change", getConsultorios);
+    });
+
+    function getPropietario(){
+        var propietarioId = $("#id_buscar").val();
+        if (propietarioId){
+            $("#id_propietario").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_Propietario' %}",
+                data: {
+                    "propId":propietarioId
+                },
+            });
+            request.done(function(response){
+                $("#id_propietario").html(response);
+               
+            });
+        }
+        else{
+            var vacio ="-"
+            $("#id_propietario").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_Propietario' %}",
+                data: {
+                    "propId":vacio
+                },
+            });
+            request.done(function(response){
+                $("#id_propietario").html(response);
+               
+            });
+        }
+        
+        /*else{
+            $("#id_propietario").html('<option value="" selected = "selected">-----------</option>');      
+            $("#id_propietario").trigger("change");
+        }*/
+    }
+
+    // SELECT DEPENDIENTE PARA LOS CONSULTORIOS====================================
+    function getConsultorios(){
+        var valor = $("#id_clinica").val();
+        if (valor){
+            $("#id_consultorio").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_consultorio' %}",
+                data: {
+                    "consultId":valor
+                },
+            });
+            request.done(function(response){
+                $("#id_consultorio").html(response);
+                
+            });
+        
+        }else{
+            $("#id_consultorio").html('<option value="" selected = "selected">-----------</option>');      
+            $("#id_consultorio").trigger("change");
+        }
+    }
+//==================================================================================
+
+</script>
+
+{% endblock content%}

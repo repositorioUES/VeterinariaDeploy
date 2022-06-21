@@ -1,0 +1,38 @@
+{% extends 'base.html'%}
+{%load static%}
+
+{% block title %}<title>Modificar Clinica</title>{% endblock title%}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            <div class="card bg-light text-dark">
+                <div class="card-body" style="background-color: #b9bbc281;">
+                    <div class="contenedor_logo" align="center">
+                        <img  class="logo"  src="{% static 'images/registro_clinica.png'%}" alt="logo">
+                    </div>
+                    <h2 align ="center">Editar Clinica </h2>
+                    <hr>
+                    <form action="" method="post">
+
+                        {%csrf_token%}
+                        {{ form|crispy}}
+
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-danger" href="{% url 'listar_clinica' %}"><i class="fa fa-ban" aria-hidden="true"></i> Cancelar</a>
+                            &nbsp;
+                            <button  type="submit" class="btn btn-success float-right"><i class="fa fa-check" aria-hidden="true"></i> Guardar</button>
+                        </div>
+                            
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content%} 

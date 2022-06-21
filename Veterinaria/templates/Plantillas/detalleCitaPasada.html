@@ -1,0 +1,43 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+<div>
+    <h3>Detalles de la Cita</h3>
+</div> 
+
+<br>
+
+<div>
+    <img src=" {{ cita.pacienteId.foto.url }}"/>
+</div>
+<div>
+    <label><B>Paciente:</B> </label>    {{cita.pacienteId.nombrePac}}
+</div>
+<div>
+    <label><B>Fecha de Cita:</B> </label>    {{cita.fechaCita}}
+</div>
+<div>
+    <label><B>Hora:</B> </label>    {{cita.horaCita}}
+</div>
+<div>
+    <label><B>Clínica:</B> </label>    {{cita.clinica.nombre}}
+</div>
+<div>
+    <label><B>Consultorio:</B> </label>    {{cita.consultorio.nombre}}
+</div>
+<div>
+    <label><B>Servicios Prestados:</B> </label> 
+        {% for s in  servicios%}
+            <br>- {{s.nombreServicio}}
+        {% endfor %}
+</div>
+<div>
+    <label><B>Fecha de Creación:</B> </label>    {{cita.fechaCreacion}}
+</div>
+      
+<br>
+<div>       
+    <a href="javascript: history.go(-1)" class="btn btn-success" style="color:white; background-color:#f6685e">Regresar</a>
+</div>      
+
+{% endblock content%}

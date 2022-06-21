@@ -1,0 +1,48 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+<div>
+    <h3>Detalle de la Solicitud</h3>
+</div> 
+
+<br>
+
+<div>
+    <B><label>Nombre del Dueño: </label>  </B>  {{solicitud.solicitante}}
+</div>
+<div>
+    <B><label>Nombre de la Clínica: </label>  </B>  {{solicitud.nombreClinica}}
+</div>
+<div>
+    <B><label>Dirección: </label>  </B>  {{solicitud.direccionClinica}}
+</div>
+<div>
+   <B> <label>Horarios de Atención: </label></B><br>  
+    <table>  
+        <tr>
+            <td width="800">
+                <p>{{solicitud.horariosClinica}}</p>
+            </td>
+        </tr>
+    </table>
+</div>
+<div>
+   <B> <label>Telefono: </label>  </B>  {{solicitud.telefonoClinica}}
+</div>
+<div>
+   <B> <label>Servicios que Ofrece: </label></B><br>  
+    <table>  
+        <tr>
+            <td width="800">
+                <p>{{solicitud.serviciosClinica}}</p>
+            </td>
+        </tr>
+    </table>
+</div>
+      
+<br>
+<div>       
+    <a href="{% url 'listado_solicitudes' %}" class="btn btn-danger">Regresar</a>
+</div>      
+
+{% endblock content%}

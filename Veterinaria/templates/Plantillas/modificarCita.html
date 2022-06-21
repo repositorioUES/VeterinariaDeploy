@@ -1,0 +1,116 @@
+{% extends 'base.html' %}  
+
+{% block content %}
+<div>
+<h5>Modificar Cita</h5>
+</div>
+
+<div>
+    <form id="myForm" role="form" method="POST" enctype ="multipart/form-data" >
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td width="200">
+                    {{form.as_table}}
+                </td>
+            </tr>
+        </table>   
+
+        <input name="pacienteId" value="" type="hidden" id="id_prodId">
+        <input name="clinica" value="" type="hidden" id="id_clinId">
+
+        <div>   
+        <input type="submit"  class="btn btn-success" style="background-color:#33CC00;color:white" name="submit" value="Aceptar">
+
+        <a href="javascript: history.go(-1)" class="btn btn-success" style="color:white; background-color:#f6685e">Cancelar</a>
+        </div>      
+    </form>
+</div> 
+
+<script>
+    var pac = document.getElementById("id_pacienteId");
+    var cli = document.getElementById("id_clinica");
+
+    var pacienteOculto = document.getElementById("id_prodId");
+    pacienteOculto.value = $("#id_pacienteId").val();
+    var clinicaOculta = document.getElementById("id_clinId");
+    clinicaOculta.value = $("#id_clinica").val();
+
+    pac.disabled ="disabled"; // deshabilitar
+    cli.disabled ="disabled"; // deshabilitar
+
+    window.onload = getConsultorios();
+
+
+//Trigerear la funcion geetServicios()-------------------------------------->>>>
+    $(document).ready(function(){
+        $("#id_consultorio").on("change", getServicios);
+        $("#id_consultorio").on("change", getHorario);
+    });
+
+//Obtener los SERVICIOS de cada CONSULTORIO--------------------------------------->>>>
+    function getServicios(){
+        var valor = $("#id_consultorio").val();
+        if (valor){
+            $("#id_servicio").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_servicio' %}",
+                data: {
+                    "consId":valor
+                },
+            });
+            request.done(function(response){
+                $("#id_servicio").html(response);
+                
+            });
+        
+        }
+    }
+
+    function getConsultorios(){
+        var valor = $("#id_clinica").val();
+        var valorCons = $("#id_consultorio").val();
+        if (valor){
+            $("#id_consultorio").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_consultorio_edit' %}",
+                data: {
+                    "consultId":valor,
+                    "primerCons":valorCons,
+                },
+            });
+            request.done(function(response){
+                $("#id_consultorio").html(response);
+                
+            });
+        
+        }
+    }
+
+    function getHorario(){
+        var valor = $("#id_clinica").val();
+        if (valor){
+            $("#id_horaCita").html("");
+            var request = $.ajax({
+                type: "GET",
+                url: "{% url 'load_Horario' %}",
+                data: {
+                    "filtro":valor
+                },
+            });
+            request.done(function(response){
+                $("#id_horaCita").html(response);
+                
+            });
+        
+        }else{
+            $("#id_horaCita").html('<option value="" selected = "selected">-----------</option>');      
+            $("#id_horaCita").trigger("change");
+        }
+    }
+
+</script>
+
+{% endblock content%}

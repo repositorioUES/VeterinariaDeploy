@@ -1,0 +1,61 @@
+{% extends 'base.html' %}  
+{% block title %}<title>Listado de Solicitudes pendientes</title>{% endblock title%}
+{% block content %}
+
+<div class="row">
+	<div class="col-md">
+		<div class="card">
+			<div class="card-body">
+				<h3 align="center">Listado de Solicitudes Pendientes</h3>
+				<table class="table table-bordered ">
+					<tr style="text-align: center; background-color: #393c7f; color:whitesmoke;">
+						<th style="text-align: center">Nombre del Dueño</th>
+						<th style="text-align: center">Nombre de la clinica</th>
+						<th style="text-align: center">Nombre del servicio</th>
+						<th style="text-align: center">Detalles</th>
+						<th style="text-align: center">Eliminar</th>
+
+					</tr>
+					{% for p in soliservicios %}
+					<tr>
+						<td style="text-align: center">
+							<div>{{p.solicitante}}</div>
+						</td>
+						<td style="text-align: center">
+							<div>{{p.nombreClinica}}</div>
+						</td>
+						<td style="text-align: center">
+							{{p.nombreServicio}}
+						</td>
+						<td style="text-align: center">
+							<a href="{% url 'detalle_solicitud_servicio' p.id %}" class="btn btn-primary"><i class="fa fa-eye" aria-hidden="true"></i></a>
+						</td>
+						<td style="text-align: center" >
+							<button onclick="return abrir_modal('{% url 'eliminar_solicitud_servicio' p.pk %}')"  style="color:white; background-color:red" class="btn btn-successtn"><i class="fa fa-trash" aria-hidden="true"></i></button>
+						</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+</div>&nbsp;
+
+<div class="modal fade" id="popup" role="dialog">
+
+</div>
+
+<script type="text/javascript">
+
+jQuery.noConflict();
+
+function abrir_modal(url)
+{
+    $('#popup').load(url, function(){
+		$(this).modal('show');
+	});
+}
+
+</script>
+
+{% endblock content%}

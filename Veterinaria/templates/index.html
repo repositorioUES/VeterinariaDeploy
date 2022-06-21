@@ -1,0 +1,41 @@
+{% extends 'base.html' %}  
+{% load static %} 
+
+{% block title %}<title>Inicio</title>{% endblock title%}
+
+{% block content %}
+<h2>Pet & Leafde</h2>
+<h5><p>Nace con la vision de llevar un control de Veterinarias dentro de nuestro pais,
+   la asociacion de Veterinarias comparten expedientes y benefician en el control de los pacientes.
+   Si quieres ser parte de la asociacion solamente llena un registro <a class="btn btn-info btn-sm" href="{% url 'crear_solicitud'%}">Contactanos</a>
+   
+</p></h5>&nbsp;
+<div style="width:800px; margin:0px auto;" >
+    <div class="slider">
+        <div>
+            <img src="{% static 'images/slider/vet1.jpg' %}" alt="">
+        </div>
+        <div>
+            <img src="{% static 'images/slider/vet2.PNG' %}" alt="">
+        </div>
+        <div>
+            <img src="{% static 'images/slider/vet3.PNG' %}" alt="">
+        </div>
+        <div>
+            <img src="{% static 'images/slider/vet4.PNG' %}" alt="">
+        </div>
+        <div>
+            <img src="{% static 'images/slider/vet5.PNG' %}" alt="">
+        </div>
+        <div>
+            <img src="{% static 'images/slider/vet6.PNG' %}" alt="">
+        </div>
+    </div>
+</div>
+
+{% endblock content%}   
+
+
+
+    
+

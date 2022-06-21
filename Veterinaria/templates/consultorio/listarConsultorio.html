@@ -1,0 +1,180 @@
+{% extends 'base.html'%}
+
+{% block title %}<title>Listado de Consultorios</title>{% endblock title%}
+
+{% block content %}
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body" style="background-color: #09a5b9; color:rgb(255, 255, 255);">
+			<h4 style="color:rgb(255, 255, 255);"><b>Nombre:</b> {{clinica.nombre}}</h4>
+			<hr style="color:rgb(255, 255, 255);">
+            <h4 style="color:rgb(255, 255, 255);"><b>Miembro desde:</b> {{clinica.fechaIngreso}}</h4>
+			
+			<!--
+			<a class="btn btn-success  btn-sm btn-block" href="{% url 'registrar_consultorio' clinica.id %}"><i class="fa fa-plus" aria-hidden="true"></i> Agregar Consultorio</a>
+			-->
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body" style="background-color: #09a5b9; color:rgb(255, 255, 255);">
+			<h4 style="color:rgb(255, 255, 255);"><b>Informacion general</b></h4>
+			<hr>
+			<p>Dueño: {{clinica.propietario}}</p>
+            <p>Direccion: {{clinica.direccion}}</p>
+			<p>Telefono: {{clinica.telefono}}</p>
+            <p>Correo Electronico: {{clinica.correoElectronico}}</p>
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body" style="background-color: #09a5b9; color:rgb(255, 255, 255);">
+			<h3 style="text-align: center;padding: 10px; color:rgb(255, 255, 255);"><b>Estado</b></h5>
+			<hr>
+			<h1 style="text-align: center;padding: 10px; color:rgb(255, 255, 255);">{{clinica.estado}}</h3>
+		</div>
+	</div>
+</div>&nbsp;
+
+<div class="d-flex justify-content-end">
+    <a class="btn btn-success" href="{% url 'registrar_consultorio' clinica.id %}" ><i class="fa fa-plus" aria-hidden="true"></i> Agregar Consultorio</a>
+	&nbsp;
+	<a class="btn btn-danger " href="{% url 'consolidados' clinica.id%}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Consolidados</a>
+	&nbsp;
+	<a class="btn btn-info " href="{% url 'crear_solicitud_servicio'%}">Sugerir Servicio</a>
+</div>&nbsp;
+
+<div class="row">
+    <div class="col-md">
+        <div class="card">
+            <div class="card-body">
+                <form method="GET">
+                    <button class="btn btn-primary" type="submit">Buscar</button>
+                    {{filter2.form}}
+                  </form>&nbsp;&nbsp;
+                <h2 align ="center">Empleados</h2>
+                <table class="table  table-bordered ">
+                    <tr style="text-align: center; background-color: #393c7f; color:whitesmoke;" >
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Cargo</th>
+                        <th>Salario</th>
+                        <th>Clinica</th>
+                        <th>Consultorio</th>
+                    </tr>
+
+                    {%for empleado in empleados %}
+                    <tr>
+                        <td>{{ empleado.nombreEmp }}</td>
+                        <td>{{ empleado.apellidoEmp }}</td>
+                        <td>{{ empleado.cargo }}</td>
+                        <td>$ {{ empleado.salario }}</td>
+                        <td>{{ empleado.consultorio.clinica.nombre}}</td>
+                        <td>{{ empleado.consultorio.nombre}}</td>
+                    </tr>
+                    {%endfor%}
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>&nbsp;
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<form method="GET">
+				<button class="btn btn-primary" type="submit">Buscar</button>
+				{{filter.form}}
+			  </form>&nbsp;&nbsp;
+			<h2 align ="center">Consultorios</h2>
+			<table class="table table-bordered table-sm">
+				<tr style="text-align: center; background-color: #393c7f; color:whitesmoke;" >
+					<th>Nombre del consultorio</th>
+					<th>Direccion</th>
+					<th>Horarios</th>
+					<th>Telefono</th>
+					<th>Fecha de Ingreso</th>
+					<th>Correo Electronico</th>
+					<th>Servicios</th>
+					<th>Estado</th>
+					<th>Gestionar</th>
+				</tr>
+				{% for consultorio in consultorios %}
+				<tr>
+					<td>{{ consultorio.nombre }}</td>
+					<td>{{ consultorio.direccion}}</td>
+					<td>{{ consultorio.horarios }}</td>
+					<td>{{ consultorio.telefono }}</td>
+					<td>{{ consultorio.fechaIngreso }}</td>
+					<td>{{ consultorio.correoElectronico }}</td>
+					<td>{% for serv in consultorio.servicios.all %}  ✓{{ serv}}{% endfor %}</td>
+					<td>{{ consultorio.estado }}</td>
+					<td> <a href="{% url 'modificar_consultorio' consultorio.id %}"><i class="fa fa-pencil fa-2x" aria-hidden="true" style="font-size:24px;color:rgb(238, 204, 9);text-shadow:2px 2px 4px #000000;"></i></a>&nbsp;&nbsp;
+						{% if consultorio.id not in consultoriosId%}
+						<a href="#" onclick="eliminarConsultorio({{ consultorio.id }})"><i class="fa fa-trash-o fa-2x" aria-hidden="true" style="font-size:24px;color:rgb(212, 10, 10);text-shadow:2px 2px 4px #000000;"></i></a>
+				    	{% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+</div>
+<br>
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
+			<div id='map' style='width: 1000px; height: 400px; margin:0px auto;'></div>
+		</div>
+	</div>
+</div>
+<br>
+<div class="d-flex justify-content-center">
+    <a class="btn btn-danger" href="{% url 'listar_clinica' %}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar</a>
+</div>
+
+
+{% endblock content%} 
+
+{%block js%}
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1Ijoia3JpejEwOTEiLCJhIjoiY2tyaTBtazYyMGkxaTMwcGUzb2s5cjRpZyJ9.C5B7uLancPuRuJRZqaa-Dw';
+	var map = new mapboxgl.Map({
+	container: 'map',
+	style: 'mapbox://styles/mapbox/streets-v11',
+	center: [-88.9167000, 13.8333000],
+	zoom: 7.60
+	});
+	map.addControl(new mapboxgl.NavigationControl());
+	{% for consultorio in consultorios %}
+	var marker = new mapboxgl.Marker({
+		color: "#FF0000"
+	}).setLngLat([{{consultorio.longitud|safe}}, {{consultorio.latitud|safe}}])
+	  .setPopup(new mapboxgl.Popup().setHTML("{{consultorio.nombre|safe}}"))
+	  .addTo(map);
+	  {% endfor %}
+	</script>
+
+	<script>
+		function eliminarConsultorio(id){
+			Swal.fire({
+				title: 'Estas seguro de eliminar este Consultorio?',
+				showCancelButton: true,
+				confirmButtonText: 'Si, Eliminar',
+				confirmButtonColor: '#FF0000',
+				cancelButtonText: 'No, Cancelar',
+				reverseButtons: true,
+
+		}).then(function(result) {
+
+			if (result.isConfirmed) {
+				window.location.href = "/eliminar_consultorio/"+id+"/"
+				} 
+			}) 
+		}
+	</script>
+	
+
+	{%endblock js%}

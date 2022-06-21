@@ -1,0 +1,59 @@
+{% extends 'base.html' %}  
+{% block title %}<title>Servicios por borrar</title>{% endblock title%}
+{% block content %}
+
+<div class="row">
+	<div class="col-md">
+		<div class="card">
+			<div class="card-body">
+				<h3 align ="center">Listado de Servicios por borrar</h3>
+				<table class="table table-bordered ">
+					<tr style="text-align: center; background-color: #393c7f; color:whitesmoke;">
+			<th style="text-align: center">Servicios</th>
+			<th style="text-align: center">Categoria</th>
+			<th style="text-align: center">Gestionar</th>
+		</tr>
+		{% for p in servicios %}
+			<tr>
+				<td style="text-align: center">
+					<div>{{p.nombreServicio}}</div>
+				</td>
+				<td style="text-align: center">
+					<div>{{p.catServicio}}</div>
+				</td>
+				<td style="text-align: center">
+                   <button onclick="return abrir_modal('{% url 'borrar_servicio' p.pk %}')" class="btn btn-danger">Borrar</button>
+				</td>
+			</tr>
+
+		{% endfor %}
+	</table>
+</div>
+</div>
+</div>
+</div>&nbsp;
+
+<br>
+<div class="d-flex justify-content-center">
+    <a class="btn btn-danger" href="{% url 'listado_servicios' %}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar</a>
+</div>
+
+
+
+<div class="modal fade" id="popup" role="dialog">
+
+</div>
+
+<script type="text/javascript">
+
+	jQuery.noConflict();
+
+	function abrir_modal(url)
+	{
+    	$('#popup').load(url, function(){
+			$(this).modal('show');
+		});
+	}
+
+</script>
+{% endblock content%}

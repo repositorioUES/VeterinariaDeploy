@@ -1,0 +1,28 @@
+
+<div class="modal-dialog modal-lg-4">
+	<div class="modal-content">
+
+		<form>
+
+             <div class="modal-body">
+				
+				<div class="mdl-dialog__content" allign ="center">
+					<h4>Seleccione el tipo de Registro </h4>
+					<br>
+					<a href="{% url 'registrar_paciente' %}" class="btn btn-success" style="color:white; background-color:#33CC00">
+  		 			Paciente y Propietario Nuevos</a>
+					<h6>Le permite Registrar un paciente y propietario Nuevos en el sistema </h6>
+					<br>
+					<a href="{% url 'registrar_solo_paciente' %}" class="btn btn-success" style="color:white; background-color:#33CC00">
+  		 			Sólo Paciente Nuevo</a>
+					<h6>Le permite Registrar un paciente a nombre de un propietario ya existente en el sistema</h6>
+				</div>
+			</div>
+				<div class="modal-footer">
+			        <div class="col-lg-8 text-right"> 
+					<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" data-dismiss="modal">Cancelar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

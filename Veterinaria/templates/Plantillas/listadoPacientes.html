@@ -1,0 +1,81 @@
+{% extends 'base.html' %}  
+{% block title %}<title>Listado de Pacientes</title>{% endblock title%}
+{% block content %}
+
+<div class="d-flex justify-content-start">
+	<button onclick="return abrir_modal('{% url 'tipo_registro'%}')" class="btn btn-success">Registrar Paciente</button>&nbsp;    
+	<a href="{% url 'pacientes_inactivos' %}" class="btn btn-success" >Pacientes Inactivos</a>&nbsp;
+	<a href="{% url 'buscar_paciente' %}" class="btn btn-info">Buscar Paciente</a>&nbsp;    
+</div>&nbsp;
+
+<div class="row">
+	<div class="col-md">
+		<div class="card">
+			<div class="card-body">
+				<h3 align ="center">Listado de Pacientes Activos</h3>
+				<table class="table table-bordered ">
+					<tr style="text-align: center; background-color: #393c7f; color:whitesmoke;">
+						<th style="text-align: center">Paciente</th>
+						<th style="text-align: center">Especie</th>
+						<th style="text-align: center">Propietario</th>
+						<th style="text-align: center">Detalles</th>
+						<th style="text-align: center">Expediente</th>
+						<th style="text-align: center">Reporte</th>
+					</tr>
+					{% for p in pacientes %}
+					{% if p.activo == 1 %}
+					<tr>
+						<td style="text-align: center">
+							<!--<div><img src=" {{ p.foto.url }}"/></div>-->
+							<div>{{p.nombrePac}}</div>
+						</td>
+						<td style="text-align: center">
+							{{p.especie}}
+						</td>
+						<td style="text-align: center">
+							{{p.propietario.nombre}}
+							{{p.propietario.apellido}}
+						</td>
+
+						<td style="text-align:center;">
+							<a href="{% url 'detalle_paciente' p.pk %}" class="btn"
+								style="color:white; background-color:rgb(26, 170, 26)"><i class="fa fa-eye"
+									aria-hidden="true"></i></a>
+						</td>
+						<td style="text-align:center;">
+							<a href="{% url 'expediente' p.pk %}" class="btn"
+								style="color:white; background-color:rgb(6, 116, 206)"><i class="fa fa-file"
+									aria-hidden="true"></i></a>
+						</td>
+						<td style="text-align:center;">
+							<a href="{% url 'reporte_Paciente' p.pk %}" class="btn"
+								style="color:white; background-color:rgb(199, 2, 2)"><i class="fa fa-file-pdf-o"
+									aria-hidden="true"></i></a>
+						</td>
+					</tr>
+					{% endif %}
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+</div>&nbsp;
+
+<div class="modal fade" id="popup" role="dialog">
+
+</div>
+
+<script type="text/javascript">
+
+	jQuery.noConflict();
+
+	function abrir_modal(url)
+	{
+		$('#popup').load(url, function(){
+			$(this).modal('show');
+		});
+	}
+
+</script>
+
+{% endblock content%}

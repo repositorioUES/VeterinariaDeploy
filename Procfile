@@ -1,0 +1,1 @@
+web: gunicorn ProyectoVeterinaria.wsgi --log-file -

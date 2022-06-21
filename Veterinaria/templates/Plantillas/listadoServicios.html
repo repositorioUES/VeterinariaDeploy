@@ -1,0 +1,64 @@
+{% extends 'base.html' %}  
+{% block title %}<title>Listado de Servicios</title>{% endblock title%}
+{% block content %}
+
+<div class="d-flex justify-content-start">
+		<a href="{% url 'crear_servicio'  %}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Crear Servicio</a>&nbsp;
+		<a href="{% url 'servicios_inactivos' %}" class="btn btn-success">Servicios inactivos</a>&nbsp;
+		<a href="{% url 'servicio_para_borrar' %}" class="btn btn-danger">Servicios para borrar</a>
+	</div>&nbsp;
+
+	<div class="row">
+		<div class="col-md">
+			<div class="card">
+				<div class="card-body">
+					<h2 align ="center">Listado de Servicios Activos</h2>
+					<table class="table table-bordered">
+						<tr style="text-align: center; background-color: #393c7f; color:whitesmoke;">
+							<th style="text-align: center">Servicios</th>
+							<th style="text-align: center">Categoria</th>
+							<th style="text-align: center">Detalles</th>
+							<th style="text-align: center">Gestionar</th>
+						</tr>
+						{% for p in servicios %}
+						{% if p.estadoServicio == 'Activa' %}
+						<tr>
+							<td style="text-align: center">
+								<div>{{p.nombreServicio}}</div>
+							</td>
+							<td style="text-align: center">
+								<div>{{p.catServicio}}</div>
+							</td>
+							<td style="text-align: center">
+								<a href="{% url 'detalle_servicios' p.idServicio  %}" class="btn btn-primary">Detalles</a>
+							</td>
+							<td style="text-align: center">
+								<a href="{% url 'modificar_servicio' p.idServicio %}" class="btn btn-primary">Modificar</a>
+							</td>
+						</tr>
+						{% endif %}
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>&nbsp;
+
+
+<div class="modal fade" id="popup" role="dialog">
+
+</div>
+
+<script type="text/javascript">
+
+	jQuery.noConflict();
+
+	function abrir_modal(url) {
+		$('#popup').load(url, function () {
+			$(this).modal('show');
+		});
+	}
+
+</script>
+
+{% endblock content%}
