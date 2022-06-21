@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-mjkv2w%vx1t8#!@fb(mbswkxk*q+h7^#9#6dn)=(3ms_!me)jy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
-ALLOWED_HOSTS = ['*', 'https://clinicavetdsi.herokuapp.com/']
+ALLOWED_HOSTS = ['*', ]
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -127,10 +127,16 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
 STATICFILES_DIRS = BASE_DIR, 'static'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
